@@ -1,0 +1,193 @@
+####SOME CUSTOM CONFIGURATION MESSAGE
+####BUILD IN 2025
+
+####llvm, version 14, first build in ubuntu 22.04
+####ref. https://apt.llvm.org/llvm.sh
+####chmod +x llvm.sh, sudo ./llvm.sh
+####notes: libclang-<llvm-version>-dev, libomp-<llvm-version>-dev are needed;
+####eg. sudo apt-get install libclang-14-dev libomp-14-dev
+####for XFLUIDS compile,
+####export COMPILER_PATH=/usr/lib/llvm-14
+export llvm_path=/usr/lib/llvm-14
+alias module-llvm='	export CPATH=$llvm_path/include:$CPATH;\
+			export PATH=$llvm_path/bin:$PATH;\
+			export LD_LIBRARY_PATH=$llvm_path/lib:$LD_LIBRARY_PATH'
+module-llvm
+
+####Anaconda, first build in ubuntu 22.04 
+####anaconda --version >> anaconda Command line client (version 1.12.1)
+####conda --version >> conda 23.7.4
+export conda_path=/home/gpi/Apps/anaconda3/bin
+alias module-conda="source $conda_path/activate"
+alias module-unconda="conda deactivate"
+
+####OpenMPI, first build in ubuntu 22.04
+####source from apt-get
+####sudo apt-get update, sudo apt-get install build-essential,
+####sudo apt-get install openmpi-bin libopenmpi-dev
+export openmpi_path=/usr/lib/x86_64-linux-gnu/openmpi
+alias module-openmpi='	export CPATH=$openmpi_path/include:$CPATH;\
+			export LD_LIBRARY_PATH=$openmpi_path/lib:$LD_LIBRARY_PATH;\
+			echo "ADD OpenMPI"'
+
+####boost, version 1.83.0, first build in ubuntu 22.04
+####tar -zxvf boost_1_83_0.tar.gz && cd ./boost_1_83_0 && ./bootstrap.sh --prefix=/home/gpi/Apps/boost
+####b2 -q install
+export BOOST_ROOT=/home/gpi/Apps/boost
+
+####OpenSYCL(AdaptiveCPP)
+####cd $OpenSYCL_PATH/build && rm -rf ./*
+####cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/gpi/Apps/OpenSYCL -DCUDA_TOOLKIT_ROOT_DIR=$cuda_path -DWITH_CPU_BACKEND=ON -DWITH_CUDA_BACKEND=ON -DWITH_CUDA_NVCXX_ONLY=OFF -DWITH_ROCM_BACKEND=OFF -DWITH_OPENCL_BACKEND=OFF ..
+####make -j8 install
+export opensycl_path=/home/gpi/Apps/OpenSYCL
+alias module-opensycl='	export PATH=$opensycl_path/bin:$PATH;\
+			export CPATH=$opensycl_path/include/AdaptiveCpp:$CPATH;\
+			export LD_LIBRARY_PATH=$opensycl_path/lib:$LD_LIBRARY_PATH'
+
+####CUDA, version12.2.0, first build in ubuntu 22.04, Nvidia RTX 3070 Ti gpu
+####ref. https://developer.nvidia.com/cuda-toolkit-archive
+export cuda_path=/usr/local/cuda-12.2
+alias module-cuda='	export PATH=$cuda_path/bin:$PATH;\
+			export CPATH=$cuda_path/include:$CPATH;\
+			export LD_LIBRARY_PATH=$cuda_path/lib64:$LD_LIBRARY_PATH'
+
+####OneAPI, version 25.0.0, first build in ubuntu 22.04, Nvidia RTX 3070 Ti gpu
+####Codeplay for nvidia gpu, version 25.0.0, first build in CUDA 12.2
+####OneAPI, version 24.0.0, first build in ubuntu 22.04, Nvidia RTX 3070 Ti gpu
+####Codeplay for nvidia gpu, version 24.0.0, first build in CUDA 12.2
+####for XFluids oneapi
+####	source ~/intel/oneapi/setvars.sh --force --include-intel-llvm
+####	source ~/intel/oneapi/2024.0/oneapi-vars.sh --force --include-intel-llvm
+####	bash /home/gpi/Documource ~/intel/oneapi/setvars.sh --force --include-intel-llvmnts/SoftWare/Installation/oneAPI/oneapi-for-nvidia-gpus-2024.0.0-cuda-12.0-linux.sh
+####update XFluids:
+####	bash codeplay in not needed
+####thinking:
+####	setvars.sh is must, then source 2024.0, some libs will be replaced
+#export oneapi_path=/home/gpi/intel/oneapi/2025.0
+#export oneapi_path=/home/gpi/intel/oneapi/2024.0
+#alias module-oneapi="source $oneapi_path/oneapi-vars.sh  --force --include-intel-llvm"
+alias module-oneapi-XFluids='	source ~/intel/oneapi/setvars.sh --force --include-intel-llvm;\
+				source ~/intel/oneapi/2024.0/oneapi-vars.sh --force --include-intel-llvm'
+
+####deepflame, version latest, first build in K48
+####	==============================maybe all the errors are due to conda's version========================================
+####	Err:
+####	[1]conda install torchaudio, package not found
+####		which -a pip >> /home/user/anaconda3/envs/deepflame/bin/pip
+####		/home/user/anaconda3/envs/deepflame/bin/python -m pip install torchaudio
+####			ERROR: Exception:
+####			Traceback (most recent call last):
+####				a simple retry
+####		$env-python-path/python -m pip install package -i https://pypi.tuna.tsinghua.edu.cn/simple 
+####	anaconda search -t conda package
+####		anaconda show xxx/xxx
+####	=====================================================================================================================
+####	anaconda install by Anaconda3-2024.10-1-Linux-x86_64.sh
+####	conda --version >> conda 24.9.2
+####	. install.sh ($DF_ROOT), error: <'any' in namespace 'std' does not name a type>
+####		vim $OpenFOAM_PATH/wmake/rules/linux64Gcc/c++,
+####		change CC = g++ -std=c++11 -m64 in line No.9 to CC = g++ -std=c++17 -m64
+####		then, cd $deepflame_PATH,
+####		find . -type f -exec sed -i 's/std=c++11/std=c++17/g' {} +
+####		find . -type f -exec sed -i 's/std=c++14/std=c++17/g' {} +
+####	scotch error , maybe 48 cores in not allowed
+
+
+####OpenFOAM, version 6, for detonationFOAM, first build in ubuntu 22.04
+####source from github, ref. https://github.com/OpenFOAM/OpenFOAM-dev/releases/tag/version-6
+####depends on OpenMPI, ThirdParty-dev-6
+####ThirdParty-dev-6, ref. https://github.com/OpenFOAM/ThirdParty-dev/releases/tag/version-6
+####defalut, mv OpenFOAM-dev-6 OpenFOAM-dev
+####defalut, mv ThirdParty-dev-6 ThirdParty-dev
+####source $OpenFOAM_PATH/etc/bashrc, ./$OpenFOAM_PATH/Allwmake -j
+export openfoam_path=/home/gpi/Documents/XFluids/SampleTest-sw/OpenFOAM-dev
+alias module-openfoam=' module-openmpi
+                        source $openfoam_path/etc/bashrc;\
+                        echo "ADD OpenFOAM6"'
+
+####Paraview, version5.4.0, depends on OpenFOAM-guide, first build in ubuntu 22.04
+####ref. https://www.paraview.org/download/
+####tar -zxvf ParaView-5.4.0-Qt5-OpenGL2-MPI-Linux-64bit.tar.gz -C /usr/local
+####option -C mean custom path
+####sudo mv /usr/local/ParaView-5.4.0-Qt5-OpenGL2-MPI-Linux-64bit.tar.gz /usr/local/paraview5.4.0
+export paraview_path=/usr/local/paraview5.4.0
+alias paraview='$paraview_path/bin/paraview'
+
+####clash for windows, cfw, version 0.20.39, first build in ubuntu 22.04
+#export clash_path=/home/gpi/Downloads/Clash.for.Windows-0.20.39-Opt.1-linux-x64
+#alias clash='$clash_path/cfw'
+
+####Tecplot, version360, first build in ubuntu 22.04
+####build by .sh
+alias tec="/usr/local/tecplot/360ex_2023r1/bin/tec360"
+
+####Ollama, first build in ubuntu 22.04
+####>>> Installing ollama to /usr/local
+####>>> Downloading Linux amd64 bundle
+############################################################################ 100.0%
+####>>> Creating ollama user...
+####>>> Adding ollama user to render group...
+####>>> Adding ollama user to video group...
+####>>> Adding current user to ollama group...
+####>>> Creating ollama systemd service...
+####>>> Enabling and starting ollama service...
+####Created symlink /etc/systemd/system/default.target.wants/ollama.service → /etc/systemd/system/ollama.service.
+####>>> NVIDIA GPU installed.
+
+####hipfort, version 5.4, first build in ubuntu 20.04, AMD Radeon RX 6800 XT
+####ref. https://github.com/ROCm/hipfort/tree/release/rocm-rel-5.4
+####notes: 	hipSOLVER interfaces will only work for AMD GPUs
+####		gfortran version 7.5.0 or newer
+####depends on gfortran, git, cmake, maybe rocm is necessary
+####git clone https://github.com/ROCmSoftwarePlatform/hipfort
+####mkdir build, cd build, cmake -DHIPFORT_INSTALL_DIR=/tmp/hipfort .., make install,
+####test:	cd $hipfort_PATH/test/f2003/vecadd, hipfc -v hip_implementation.cpp main.f03, ./a.out
+#export PATH=/tmp/hipfort/bin:$PATH
+
+####gpufort, Makefile needs to modified
+####error:gpufort not found
+####	echo export PATH=$gpufort_PATH/bin/gpufort:$PATH >> ~/.bashrc
+####
+
+###nvidia-driver, version 535, fist build in ubuntu 22.04
+####if error:
+####	lsmod | grep nvidia, to test nvidia-driver
+####	lspci | grep nvidia, to test pci-nvidia
+####	sudo apt-get  --purge remove '*nvidia*'
+####	cd /lib/modules/, check whether nvidia files exist, if exist, remove all nvidia files
+####	sudo apt-get autoremove, to remove residual files about nvidia
+####	sudo -rf /etc/X11/xorg.conf.d
+####	cd /lib/modules/$(uname -r)/kernel/drivers/video
+####	if exist nvidia folder, remove it, if not, find ./ -name "nvidia", then remove it
+####	cd /usr/lib/x86_64-linux-gnu, check whether nvidia files exist, if exist, remove all nvidia files
+####	cd /var/lib, check whether dkms folder exist
+####	sudo apt-get --purge remove '*cuda*'
+####	sudo apt-get autoremove
+####	cd /usr/local, cd /etc, check whether cuda files exist, if exist, remove all cuda files
+####	sudo apt-get --purge remove amdgpu
+####	sudo apt-get --purge remove '*rocm*'
+####	sudo apt-get autoremove
+####	cd /opt, cd /usr/lib, find ./ -name "rocm", if exist, remove all rocm files
+####	cd /etc/modprobe.d, check whether nvidia&rocm&cuda&amd files exist, if exist, remove
+####	cd /etc/apt/sources.list.d/, remove rocm&cuda&nvidia&amd files
+####	sudo apt-get install dkms, if not install
+####	sudo dkms remove -m nvidia -v 535 --all
+####	sudo dkms remove -m amdgpu --all
+####	sudo ldconfig
+####	sudo update-initramfs -u
+####install clean version nvidia-driver, add source to apt
+####	add apt-repository, sudo add-apt-repository ppa:graphics-drivers/ppa
+####	sudo apt-get update, sudo apt-get install nvidia-driver-535, sudo reboot
+
+####networking.service
+####error:ping 8.8.8.8 and bing.com is ok, but can't search in browser
+####	echo "nameserver 8.8.8.8 nameserver 114.114.114.114" >> /etc/resolv.conf, 
+####	sudo systemctl restart networking.service
+
+
+
+
+
+
+
+
