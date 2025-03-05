@@ -1,0 +1,7 @@
+XTerm*faceName: Monospace:antialias=true
+XTerm*utf8: 2
+XTerm*vt100.translations: #override  Ctrl<Btn4Down>: smaller-vt-font() \n Ctrl<Btn5Down>: larger-vt-font()
+XTerm*fastScroll: true
+XTerm*skipScroll: true
+XTerm*scrollKey: true
+XTerm*cursorBlink: off
