@@ -117,9 +117,14 @@ alias paraview='$paraview_path/bin/paraview'
 #export clash_path=/home/gpi/Downloads/Clash.for.Windows-0.20.39-Opt.1-linux-x64
 #alias clash='$clash_path/cfw'
 
-####Tecplot, version360, first build in ubuntu 22.04
+####Tecplot, version 360, first build in ubuntu 22.04
 ####build by .sh
 alias tec="/usr/local/tecplot/360ex_2023r1/bin/tec360"
+
+####Inscape, version 1.4, first build in ubuntu 22.04
+####FUSE error, lack libfuse2.so.2
+####	sudo apt-get intall libfuse2
+alias inscape="/home/gpi/Apps/Inkscape-e7c3feb-x86_64_0QCD8vJ.AppImage"
 
 ####Ollama, first build in ubuntu 22.04
 ####>>> Installing ollama to /usr/local
