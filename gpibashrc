@@ -1,14 +1,18 @@
 ####SOME CUSTOM CONFIGURATION MESSAGE
 ####BUILD IN 2025
 
+#### clash for windows, 
+export https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897 all_proxy=socks5://127.0.0.1:7897
 ####llvm, version 14, first build in ubuntu 22.04
 ####ref. https://apt.llvm.org/llvm.sh
 ####chmod +x llvm.sh, sudo ./llvm.sh
 ####notes: libclang-<llvm-version>-dev, libomp-<llvm-version>-dev are needed;
 ####eg. sudo apt-get install libclang-14-dev libomp-14-dev
 ####for XFLUIDS compile,
-####export COMPILER_PATH=/usr/lib/llvm-14
-export llvm_path=/usr/lib/llvm-14
+####XFLUIDS error caused by llvm
+####	ref. /home/gpi/Documents/SoftWare/Installation/llvm/llvm-env-fix.png
+export COMPILER_PATH=/usr/lib/llvm-16
+export llvm_path=/usr/lib/llvm-16
 alias module-llvm='	export CPATH=$llvm_path/include:$CPATH;\
 			export PATH=$llvm_path/bin:$PATH;\
 			export LD_LIBRARY_PATH=$llvm_path/lib:$LD_LIBRARY_PATH'
@@ -68,6 +72,13 @@ alias module-cuda='	export PATH=$cuda_path/bin:$PATH;\
 #alias module-oneapi="source $oneapi_path/oneapi-vars.sh  --force --include-intel-llvm"
 alias module-oneapi-XFluids='	source ~/intel/oneapi/setvars.sh --force --include-intel-llvm;\
 				source ~/intel/oneapi/2024.0/oneapi-vars.sh --force --include-intel-llvm'
+alias module-oneapi-setvars='	source ~/intel/oneapi/setvars.sh --force --include-intel-llvm'
+alias module-oneapi-24='	source ~/intel/oneapi/2024.0/oneapi-vars.sh --force --include-intel-llvm'
+alias module-oneapi-25='	source ~/intel/oneapi/2025.0/oneapi-vars.sh --force --include-intel-llvm'
+
+####On GPU platforms that don't support doubles units, the intel compiler emulates double-precision calculations
+alias module-intel-compiler-emulation='	export IGC_EnableDPEmulation=1;\
+					export OverrideDefaultFP64Settings=1'
 
 ####deepflame, version latest, first build in K48
 ####	==============================maybe all the errors are due to conda's version========================================
