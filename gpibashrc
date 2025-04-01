@@ -48,10 +48,21 @@ alias module-opensycl='	export PATH=$opensycl_path/bin:$PATH;\
 			export CPATH=$opensycl_path/include/AdaptiveCpp:$CPATH;\
 			export LD_LIBRARY_PATH=$opensycl_path/lib:$LD_LIBRARY_PATH'
 
-export opensycl-for-intel_path=/home/gpi/Apps/AdaptiveCpp-for-intel/OpenSYCL-for-intel
-alias module-opensycl-for-intel='	export PATH=$opensycl-for-intel_path/bin:$PATH;\
-					export CPATH=$opensycl-for-intel_path/include/AdaptiveCpp:$CPATH;\
-					export LD_LIBRARY_PATH=$opensycl-for-intel_path/lib:$LD_LIBRARY_PATH'
+####OpenSYCL, latest version, build from github sources
+####dependence:
+####	conda base environment
+####	llvm
+####	boost
+####installation:
+####	git clone https://github.com/AdaptiveCpp/AdaptiveCpp
+####	cd AdaptiveCpp
+####	mkdir build && cd build
+####	cmake -DCMAKE_INSTALL_PREFIX=/your/desired/install/location ..
+####	make install 
+export opensycl_for_intel_path=/home/gpi/Apps/AdaptiveCpp-for-intel/OpenSYCL-for-intel
+alias module-opensycl-for-intel='	export PATH=$opensycl_for_intel_path/bin:$PATH;\
+					export CPATH=$opensycl_for_intel_path/include/AdaptiveCpp:$CPATH;\
+					export LD_LIBRARY_PATH=$opensycl_for_intel_path/lib:$LD_LIBRARY_PATH'
 
 ####CUDA, version12.2.0, first build in ubuntu 22.04, Nvidia RTX 3070 Ti gpu
 ####ref. https://developer.nvidia.com/cuda-toolkit-archive
