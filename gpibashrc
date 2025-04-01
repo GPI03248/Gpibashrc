@@ -2,7 +2,7 @@
 ####BUILD IN 2025
 
 #### clash for windows, 
-export https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897 all_proxy=socks5://127.0.0.1:7897
+#export https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897 all_proxy=socks5://127.0.0.1:7897
 ####llvm, version 14, first build in ubuntu 22.04
 ####ref. https://apt.llvm.org/llvm.sh
 ####chmod +x llvm.sh, sudo ./llvm.sh
@@ -48,6 +48,11 @@ alias module-opensycl='	export PATH=$opensycl_path/bin:$PATH;\
 			export CPATH=$opensycl_path/include/AdaptiveCpp:$CPATH;\
 			export LD_LIBRARY_PATH=$opensycl_path/lib:$LD_LIBRARY_PATH'
 
+export opensycl-for-intel_path=/home/gpi/Apps/AdaptiveCpp-for-intel/OpenSYCL-for-intel
+alias module-opensycl-for-intel='	export PATH=$opensycl-for-intel_path/bin:$PATH;\
+					export CPATH=$opensycl-for-intel_path/include/AdaptiveCpp:$CPATH;\
+					export LD_LIBRARY_PATH=$opensycl-for-intel_path/lib:$LD_LIBRARY_PATH'
+
 ####CUDA, version12.2.0, first build in ubuntu 22.04, Nvidia RTX 3070 Ti gpu
 ####ref. https://developer.nvidia.com/cuda-toolkit-archive
 export cuda_path=/usr/local/cuda-12.2
@@ -75,10 +80,17 @@ alias module-oneapi-XFluids='	source ~/intel/oneapi/setvars.sh --force --include
 alias module-oneapi-setvars='	source ~/intel/oneapi/setvars.sh --force --include-intel-llvm'
 alias module-oneapi-24='	source ~/intel/oneapi/2024.0/oneapi-vars.sh --force --include-intel-llvm'
 alias module-oneapi-25='	source ~/intel/oneapi/2025.0/oneapi-vars.sh --force --include-intel-llvm'
+#module-oneapi-XFluids
 
 ####On GPU platforms that don't support doubles units, the intel compiler emulates double-precision calculations
+####eg.	export IGC_EnableDPEmulation=1
+####	export OverrideDefaultFP64Settings=1
+####	make clean
+####	make USE_DP=1 -j
+####	./EluerSYCL
 alias module-intel-compiler-emulation='	export IGC_EnableDPEmulation=1;\
 					export OverrideDefaultFP64Settings=1'
+#module-intel-compiler-emulation
 
 ####deepflame, version latest, first build in K48
 ####	==============================maybe all the errors are due to conda's version========================================
