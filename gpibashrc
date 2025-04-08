@@ -63,6 +63,11 @@ export opensycl_for_intel_path=/home/gpi/Apps/AdaptiveCpp-for-intel/OpenSYCL-for
 alias module-opensycl-for-intel='	export PATH=$opensycl_for_intel_path/bin:$PATH;\
 					export CPATH=$opensycl_for_intel_path/include/AdaptiveCpp:$CPATH;\
 					export LD_LIBRARY_PATH=$opensycl_for_intel_path/lib:$LD_LIBRARY_PATH'
+####for compile XFluids-Latest
+####	cmake -DACPP_PATH=/home/gpi/Apps/AdaptiveCpp-for-intel/OpenSYCL-for-intel ..
+####	make -j
+####for multiple threads run
+####	export OMP_NUM_THREADS=x
 
 ####CUDA, version12.2.0, first build in ubuntu 22.04, Nvidia RTX 3070 Ti gpu
 ####ref. https://developer.nvidia.com/cuda-toolkit-archive
@@ -102,6 +107,23 @@ alias module-oneapi-25='	source ~/intel/oneapi/2025.0/oneapi-vars.sh --force --i
 alias module-intel-compiler-emulation='	export IGC_EnableDPEmulation=1;\
 					export OverrideDefaultFP64Settings=1'
 #module-intel-compiler-emulation
+
+####improve
+#q.submit([&](sycl::handler &h) {
+#        h.parallel_for(sycl::range<2>{rows, cols}, [=](sycl::id<2> idx) 
+#        [[sycl::reqd_sub_group_size(SIMD_SIZE)]]
+#        {
+#            int row = idx[0];
+#            int col = idx[1];
+#            int sum = 0;
+#            
+#            for (int k = 0; k < common_dim; ++k) {
+#                sum += dA[row * common_dim + k] * dB[k * cols + col];
+#            }
+#            dC[row * cols + col] = sum;
+#        });
+#    }).wait();  // 等待内核完成
+####SIMD_SIZE = 16 for intel gpus, 32 for other gpus
 
 ####deepflame, version latest, first build in K48
 ####	==============================maybe all the errors are due to conda's version========================================
