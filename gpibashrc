@@ -11,8 +11,8 @@
 ####for XFLUIDS compile,
 ####XFLUIDS error caused by llvm
 ####	ref. /home/gpi/Documents/SoftWare/Installation/llvm/llvm-env-fix.png
-export COMPILER_PATH=/usr/lib/llvm-16
-export llvm_path=/usr/lib/llvm-16
+export COMPILER_PATH=/usr/lib/llvm-19
+export llvm_path=/usr/lib/llvm-19
 alias module-llvm='	export CPATH=$llvm_path/include:$CPATH;\
 			export PATH=$llvm_path/bin:$PATH;\
 			export LD_LIBRARY_PATH=$llvm_path/lib:$LD_LIBRARY_PATH'
@@ -193,6 +193,10 @@ alias tec="/usr/local/tecplot/360ex_2023r1/bin/tec360"
 ####FUSE error, lack libfuse2.so.2
 ####	sudo apt-get intall libfuse2
 alias inscape="/home/gpi/Apps/Inkscape-e7c3feb-x86_64_0QCD8vJ.AppImage"
+
+####Qv2ray, first build in ubuntu24.04
+####ref. youtube
+alias Qv2ray="/home/gpi-2404/Documents/Qv2ray/Qv2ray-v2.7.0-linux-x64.AppImage"
 
 ####Ollama, first build in ubuntu 22.04
 ####>>> Installing ollama to /usr/local
