@@ -16,7 +16,7 @@ export llvm_path=/usr/lib/llvm-16
 alias module-llvm='	export CPATH=$llvm_path/include:$CPATH;\
 			export PATH=$llvm_path/bin:$PATH;\
 			export LD_LIBRARY_PATH=$llvm_path/lib:$LD_LIBRARY_PATH'
-module-llvm
+#module-llvm
 
 ####Anaconda, first build in ubuntu 22.04 
 ####anaconda --version >> anaconda Command line client (version 1.12.1)
@@ -71,10 +71,15 @@ alias module-opensycl-for-intel='	export PATH=$opensycl_for_intel_path/bin:$PATH
 
 ####CUDA, version12.2.0, first build in ubuntu 22.04, Nvidia RTX 3070 Ti gpu
 ####ref. https://developer.nvidia.com/cuda-toolkit-archive
-export cuda_path=/usr/local/cuda-12.2
-alias module-cuda='	export PATH=$cuda_path/bin:$PATH;\
-			export CPATH=$cuda_path/include:$CPATH;\
-			export LD_LIBRARY_PATH=$cuda_path/lib64:$LD_LIBRARY_PATH'
+#export cuda_path=/usr/local/cuda-12.2
+#alias module-cuda='	export PATH=$cuda_path/bin:$PATH;\
+#			export CPATH=$cuda_path/include:$CPATH;\
+#			export LD_LIBRARY_PATH=$cuda_path/lib64:$LD_LIBRARY_PATH'
+####CUDA-Update, version 12.9, first build in ubuntu 24.04, Nvidia RTX 3070 Ti gpu
+export cuda_path=/usr/local/cuda-12.9
+alias module-cuda='     export PATH=$cuda_path/bin:$PATH;\
+                        export CPATH=$cuda_path/include:$CPATH;\
+                        export LD_LIBRARY_PATH=$cuda_path/lib64:$LD_LIBRARY_PATH'
 
 ####OneAPI, version 25.0.0, first build in ubuntu 22.04, Nvidia RTX 3070 Ti gpu
 ####Codeplay for nvidia gpu, version 25.0.0, first build in CUDA 12.2
@@ -97,6 +102,13 @@ alias module-oneapi-setvars='	source ~/intel/oneapi/setvars.sh --force --include
 alias module-oneapi-24='	source ~/intel/oneapi/2024.0/oneapi-vars.sh --force --include-intel-llvm'
 alias module-oneapi-25='	source ~/intel/oneapi/2025.0/oneapi-vars.sh --force --include-intel-llvm'
 #module-oneapi-XFluids
+
+####Graphics-technology-pin-GTPin, version 4.4, first build in ubuntu24.04
+####for intel-gpu-tools
+export GTPin_PATH=/home/gpi-2404/Documents/Graphics-technology-pin-GTPin/Profilers
+alias module-GTPin='	export PATH=$GTPin_PATH/Bin:$PATH;\
+                        export CPATH=$GTPin_PATH/Include:$CPATH;\
+                        export LD_LIBRARY_PATH=$GTPin_PATH/Lib:$LD_LIBRARY_PATH'
 
 ####On GPU platforms that don't support doubles units, the intel compiler emulates double-precision calculations
 ####eg.	export IGC_EnableDPEmulation=1
