@@ -1,6 +1,10 @@
 ####SOME CUSTOM CONFIGURATION MESSAGE
 ####BUILD IN 2025
 
+#### for solve lack of memory
+####
+export TMPDIR=/home/gpi-2404/tmp
+
 #### clash for windows, 
 #export https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897 all_proxy=socks5://127.0.0.1:7897
 ####llvm, version 14, first build in ubuntu 22.04
@@ -11,8 +15,8 @@
 ####for XFLUIDS compile,
 ####XFLUIDS error caused by llvm
 ####	ref. /home/gpi/Documents/SoftWare/Installation/llvm/llvm-env-fix.png
-export COMPILER_PATH=/usr/lib/llvm-19
-export llvm_path=/usr/lib/llvm-19
+export COMPILER_PATH=/usr/lib/llvm-16
+export llvm_path=/usr/lib/llvm-16
 alias module-llvm='	export CPATH=$llvm_path/include:$CPATH;\
 			export PATH=$llvm_path/bin:$PATH;\
 			export LD_LIBRARY_PATH=$llvm_path/lib:$LD_LIBRARY_PATH'
@@ -21,9 +25,16 @@ alias module-llvm='	export CPATH=$llvm_path/include:$CPATH;\
 ####Anaconda, first build in ubuntu 22.04 
 ####anaconda --version >> anaconda Command line client (version 1.12.1)
 ####conda --version >> conda 23.7.4
-export conda_path=/home/gpi/Apps/anaconda3/bin
+export conda_path=/home/gpi-2404/Apps/anaconda3/bin
 alias module-conda="source $conda_path/activate"
 alias module-unconda="conda deactivate"
+
+####tbb, version 2019U
+####from github
+####
+export tbb_path=/home/gpi-2404/Nvme758G/Gpi-2404/Apps/tbb2019
+alias module-tbb='    	export CPATH=$tbb_path/include:$CPATH;\
+                        export LD_LIBRARY_PATH=$tbb_path/lib/intel64/gcc4.8:$LD_LIBRARY_PATH'
 
 ####OpenMPI, first build in ubuntu 22.04
 ####source from apt-get
@@ -37,7 +48,22 @@ alias module-openmpi='	export CPATH=$openmpi_path/include:$CPATH;\
 ####boost, version 1.83.0, first build in ubuntu 22.04
 ####tar -zxvf boost_1_83_0.tar.gz && cd ./boost_1_83_0 && ./bootstrap.sh --prefix=/home/gpi/Apps/boost
 ####b2 -q install
-export BOOST_ROOT=/home/gpi/Apps/boost
+#export BOOST_ROOT=/home/gpi/Apps/boost
+
+####boost, version 1.85.0, first build in ubuntu24.04
+####ref. https://www.boost.org/doc/user-guide/getting-started.html
+####	wget https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.tar.bz2
+####	tar xf boost_1_85_0.tar.bz2
+####	cd boost_1_85_0
+####	./bootstrap.sh
+####	./b2
+####	./b2 install --prefix=/usr/local
+####	export BOOST_ROOT=/usr/local
+####	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH 
+####	export CPLUS_INCLUDE_PATH=/usr/local/include:$CPLUS_INCLUDE_PATH 
+export BOOST_ROOT=/home/gpi-2404/Apps/boost-1.85.0
+export LD_LIBRARY_PATH=$BOOST_ROOT/lib:$LD_LIBRARY_PATH
+export CPLUS_INCLUDE_PATH=$BOOST_ROOT/include:$CPLUS_INCLUDE_PATH
 
 ####OpenSYCL(AdaptiveCPP)
 ####cd $OpenSYCL_PATH/build && rm -rf ./*
@@ -63,6 +89,31 @@ export opensycl_for_intel_path=/home/gpi/Apps/AdaptiveCpp-for-intel/OpenSYCL-for
 alias module-opensycl-for-intel='	export PATH=$opensycl_for_intel_path/bin:$PATH;\
 					export CPATH=$opensycl_for_intel_path/include/AdaptiveCpp:$CPATH;\
 					export LD_LIBRARY_PATH=$opensycl_for_intel_path/lib:$LD_LIBRARY_PATH'
+
+####AdaptiveCpp, latest version, build from github sources
+####diffenrces:	for spirv && cuda
+####installing.md
+####	git clone https://github.com/AdaptiveCpp/AdaptiveCpp
+####	cd AdaptiveCpp
+####	mkdir build && cd build
+####	cmake -DCMAKE_INSTALL_PREFIX=/your/desired/install/location ..
+####	make install
+####install-llvm.md
+####	CMake variables:
+####	-DLLVM_DIR=/usr/lib/llvm-16/cmake
+####install-cuda.md
+####	CMake variables:
+####	-DCUDA_TOOLKIT_ROOT_DIR=/path/to/cuda
+####	-DWITH_CUDA_BACKEND=ON
+####install-spirv.md
+####	CMake variables:
+####	-DWITH_LEVEL_ZERO_BACKEND=ON
+####install
+####	cmake -DLLVM_DIR=/usr/lib/llvm-16/cmake -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.9 -DWITH_CUDA_BACKEND=ON -DWITH_LEVEL_ZERO_BACKEND=ON -DCMAKE_INSTALL_PREFIX=/home/gpi-2404/Apps/AdaptiveCpp ..
+#
+#
+#
+#
 ####for compile XFluids-Latest
 ####	cmake -DACPP_PATH=/home/gpi/Apps/AdaptiveCpp-for-intel/OpenSYCL-for-intel ..
 ####	make -j
@@ -76,7 +127,8 @@ alias module-opensycl-for-intel='	export PATH=$opensycl_for_intel_path/bin:$PATH
 #			export CPATH=$cuda_path/include:$CPATH;\
 #			export LD_LIBRARY_PATH=$cuda_path/lib64:$LD_LIBRARY_PATH'
 ####CUDA-Update, version 12.9, first build in ubuntu 24.04, Nvidia RTX 3070 Ti gpu
-export cuda_path=/usr/local/cuda-12.9
+####	Update, version 12.9, first build in custion PATH
+export cuda_path=/usr/local/cuda
 alias module-cuda='     export PATH=$cuda_path/bin:$PATH;\
                         export CPATH=$cuda_path/include:$CPATH;\
                         export LD_LIBRARY_PATH=$cuda_path/lib64:$LD_LIBRARY_PATH'
@@ -187,7 +239,7 @@ alias paraview='$paraview_path/bin/paraview'
 
 ####Tecplot, version 360, first build in ubuntu 22.04
 ####build by .sh
-alias tec="/usr/local/tecplot/360ex_2023r1/bin/tec360"
+alias tec="/home/gpi-2404/Nvme758G/Gpi-2404/Documents/Tec360/360ex_2023r1/bin/tec360"
 
 ####Inscape, version 1.4, first build in ubuntu 22.04
 ####FUSE error, lack libfuse2.so.2
@@ -196,7 +248,12 @@ alias inscape="/home/gpi/Apps/Inkscape-e7c3feb-x86_64_0QCD8vJ.AppImage"
 
 ####Qv2ray, first build in ubuntu24.04
 ####ref. youtube
-alias Qv2ray="/home/gpi-2404/Documents/Qv2ray/Qv2ray-v2.7.0-linux-x64.AppImage"
+alias Qv2ray="/home/gpi-2404/Documents/Qv2ray/Qv2ray-v2.7.0-linux-x64.AppImage &"
+
+####Zotero, first build in ubuntu24.04
+####
+alias Zotero="/home/gpi-2404/Nvme758G/Gpi-2404/Documents/Zotero/Zotero_linux-x86_64/zotero"
+
 
 ####Ollama, first build in ubuntu 22.04
 ####>>> Installing ollama to /usr/local
